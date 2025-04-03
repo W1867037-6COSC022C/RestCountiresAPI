@@ -1,0 +1,25 @@
+{
+  "name": "restcountriesapi",
+  "version": "1.0.0",
+  "description": "cw: a secure API middleware service that interfaces with RestCountries.com, a comprehensive RESTful service providing detailed information about countries worldwide ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/W1867037-6COSC022C/RestCountriesAPI.git"
+  },
+  "author": "Randika Geekiyanage 20210147",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/W1867037-6COSC022C/RestCountriesAPI/issues"
+  },
+  "homepage": "https://github.com/W1867037-6COSC022C/RestCountriesAPI#readme",
+  "keywords": [],
+  "dependencies": {
+    "express": "^5.1.0",
+    "install": "^0.13.0",
+    "npm": "^11.2.0"
+  }
+}
