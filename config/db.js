@@ -69,14 +69,14 @@ db.run(rc_user_api_sql),
     }
   };
 
-db.run(`INSERT INTO RC_UserRole VALUES (1, 'Admin'), (2, 'User')`),
-  (err) => {
-    if (err) {
-      console.error("INSERT FAILED: " + err);
-    } else {
-      ("Wrote to RC_UserRole");
-    }
-  };
+// db.run(`INSERT INTO RC_UserRole VALUES (1, 'Admin'), (2, 'User')`),
+//   (err) => {
+//     if (err) {
+//       console.error("INSERT FAILED: " + err);
+//     } else {
+//       ("Wrote to RC_UserRole");
+//     }
+//   };
 
 function run(sql, params = []) {
   return new Promise((resolve, reject) => {
