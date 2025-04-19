@@ -1,6 +1,7 @@
 {
   "name": "restcountriesapi",
   "version": "1.0.0",
+  "type": "module",
   "description": "cw: a secure API middleware service that interfaces with RestCountries.com, a comprehensive RESTful service providing detailed information about countries worldwide ",
   "main": "app.js",
   "scripts": {
@@ -18,7 +19,11 @@
     "url": "https://github.com/W1867037-6COSC022C/RestCountriesAPI/issues"
   },
   "homepage": "https://github.com/W1867037-6COSC022C/RestCountriesAPI#readme",
-  "keywords": [],
+  "keywords": [
+    "country info",
+    "country flags",
+    "currencies"
+  ],
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
