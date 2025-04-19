@@ -1,5 +1,5 @@
 // controllers/apiKeyController.js
-const apiKeyHandler = require("../services/apiKeyHandler");
+const apiKeyHandler = require("../service/apiKeyHandler");
 
 /* ----- User Endpoints ----- */
 
