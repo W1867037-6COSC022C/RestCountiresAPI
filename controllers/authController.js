@@ -9,7 +9,7 @@ const registerUser = async (req, res) => {
       message: "User created Successfully",
       data: result,
     });
-  } catch {
+  } catch (err) {
     res.status(500).json({
       message: "An error occurred during registration",
       error: err.message,
@@ -25,7 +25,7 @@ const login = async (req, res) => {
       message: "user logged-in",
       data: result,
     });
-  } catch {
+  } catch (err) {
     res.status(500).json({
       message: "An error occurred during login",
       error: err.message,
@@ -40,7 +40,7 @@ const getLoggedInUserProfile = async (req, res) => {
       message: "user profile recieved",
       data: user,
     });
-  } catch {
+  } catch (err) {
     res.status(500).json({
       message: "An error occurred during recieving user profile",
       error: err.message,
@@ -55,7 +55,7 @@ const getAllUsers = async (req, res) => {
       message: "recieved all users",
       data: users,
     });
-  } catch {
+  } catch (err) {
     res.status(500).json({
       message: "An error occurred during recieving user profiles",
       error: err.message,
