@@ -1,21 +1,28 @@
-const express = require("express");
-const router = express.Router();
-const csurf = require("csurf");
+import { Router } from "express";
+const router = Router();
+import csurf from "csurf";
 const csrfProtection = csurf({ cookie: true });
 
-const authController = require("../controllers/authController");
-const { verifyJWT } = require("../middleware/auth");
+import {
+  registerUser,
+  login,
+  getLoggedInUserProfile,
+  getAllUsers,
+  updateUserProfile,
+  deleteUserProfile,
+} from "../controllers/authController.js";
+import { verifyJWT } from "../middleware/auth.js";
 
-router.post("/register", authController.registerUser);
-router.post("/login", authController.login);
+router.post("/register", registerUser);
+router.post("/login", login);
 
-router.get("/profile", verifyJWT, authController.getLoggedInUserProfile);
-router.get("/all-users", verifyJWT, authController.getAllUsers);
-router.put("/profile", verifyJWT, authController.updateUserProfile);
-router.delete("/user/:id", verifyJWT, authController.deleteUser);
+router.get("/profile", verifyJWT, getLoggedInUserProfile);
+router.get("/all-users", verifyJWT, getAllUsers);
+router.put("/profile", verifyJWT, updateUserProfile);
+router.delete("/user/:id", verifyJWT, deleteUserProfile);
 
 router.get("/csrf-token", csrfProtection, (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });
 
-module.exports = router;
+export default router;

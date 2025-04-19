@@ -1,4 +1,5 @@
-const { run, get, all } = require("../config/db");
+import dbUtils from "../config/db.js";
+const { run, get, all } = dbUtils;
 
 async function createUser({ username, password, email, roleId }) {
   const sql = `
@@ -50,16 +51,16 @@ async function updateUser(userId, updates) {
   const sql = `UPDATE RC_Users SET ${fields.join(", ")} WHERE userId = ?`;
   values.push(userId);
   await run(sql, values);
-  return await findUserById(userId);
+  return await findUserByUserId(userId);
 }
 
 async function deleteUser(userId) {
-  const sql = `DELETE FROM RC_Users WHERE userId = ?`;
+  const sql = `DELETE FROM RC_Users WHERE UserId = ?`;
   await run(sql, [userId]);
   return { userId };
 }
 
-module.exports = {
+export default {
   createUser,
   findUserByEmail,
   findUserByUsername,

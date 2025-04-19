@@ -1,4 +1,5 @@
-const { run, get, all } = require("../config/db");
+import dbUtils from "../config/db.js";
+const { run, get, all } = dbUtils;
 
 /**
  * Creates an API key record for each system user.
@@ -82,7 +83,7 @@ async function findApiKeyByValue(api_key) {
   return await get(sql, [api_key]);
 }
 
-module.exports = {
+export default {
   createApiKey,
   getApiKeyById,
   getApiKeysByUserId,

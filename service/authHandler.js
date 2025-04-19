@@ -1,34 +1,44 @@
-// services/authService.js
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const userDao = require("../dao/restCountriesUserDao");
+import { hash, compare } from "bcryptjs";
+import pkgSign from "jsonwebtoken";
+const { sign } = pkgSign;
+import restCountriesUserDao from "../dao/restCountriesUserDao.js";
+
+const {
+  findUserByEmail,
+  getUserCount,
+  createUser,
+  findUserByUserId,
+  findAllUsers,
+  updateUser,
+  deleteUser,
+} = restCountriesUserDao;
 
 const accessDeniedMsg = "Access Denied! Please Contact Help Desk.";
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET;
 const JWT_EXPIRES_IN = "7d";
 
-function issueJWTTocken(payload) {
-  return jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: JWT_EXPIRES_IN });
+function issueJWTToken(payload) {
+  return sign(payload, JWT_SECRET_KEY, { expiresIn: JWT_EXPIRES_IN });
 }
 
 //User Registration Handling
 async function register({ username, email, password }) {
-  const existingUser = await userDao.findUserByEmail(email);
+  const existingUser = await findUserByEmail(email);
   if (existingUser) {
     throw new Error("A Registered User. Please login");
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10); //password hashing
+  const hashedPassword = await hash(password, 10); //password hashing
 
-  const userCount = await userDao.getUserCount();
+  const userCount = await getUserCount();
   const roleId = userCount === 0 ? 1 : 2;
 
   const newUser = { username, email, password: hashedPassword, roleId };
-  const registeredUser = await userDao.createUser(newUser);
+  const registeredUser = await createUser(newUser);
 
-  const token = issueJWTTocken({
-    id: registeredUser.userIdd,
+  const token = issueJWTToken({
+    id: registeredUser.userId,
     email: registeredUser.email,
     roleId: registeredUser.roleId,
   });
@@ -38,18 +48,18 @@ async function register({ username, email, password }) {
 
 //Login function
 async function login({ email, password }) {
-  const loginUser = await userDao.findUserByEmail(email);
+  const loginUser = await findUserByEmail(email);
 
   if (!loginUser) {
     throw new Error("Couldn't find a Registered User, Please try again");
   }
 
-  const isPasswordValid = await bcrypt.compare(password, loginUser.password);
+  const isPasswordValid = await compare(password, loginUser.password);
   if (!isPasswordValid) {
     throw new Error("Password Invalid, Please try again");
   }
 
-  const token = issueJWTTocken({
+  const token = issueJWTToken({
     id: loginUser.userId,
     email: loginUser.email,
     role: loginUser.roleId,
@@ -67,7 +77,7 @@ async function login({ email, password }) {
 }
 
 async function getLoggedInUserProfile(userId) {
-  const user = await userDao.findUserById(userId);
+  const user = await findUserByUserId(userId);
   if (!user) {
     throw new Error("User Not Found");
   }
@@ -78,28 +88,28 @@ async function getAllUsers(currentUserRole) {
   if (currentUserRole !== 1) {
     throw new Error(accessDeniedMsg);
   }
-  return await userDao.findAllUsers();
+  return await findAllUsers();
 }
 
 async function updateUserProfile(userId, data) {
   if (data.password) {
-    data.password = await bcrypt.hash(data.password, 10);
+    data.password = await hash(data.password, 10);
   }
-  return await userDao.updateUser(userId, data);
+  return await updateUser(userId, data);
 }
 
-async function deleteUser(currentUserRole, userId) {
+async function deleteUserProfile(currentUserRole, userId) {
   if (currentUserRole !== 1) {
     throw new Error(accessDeniedMsg);
   }
-  return await userDao.deleteUser(userId);
+  return await deleteUser(userId);
 }
 
-module.exports = {
+export {
   register,
   login,
   getLoggedInUserProfile,
   getAllUsers,
   updateUserProfile,
-  deleteUser,
+  deleteUserProfile,
 };

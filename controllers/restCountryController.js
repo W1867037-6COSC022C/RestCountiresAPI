@@ -1,5 +1,5 @@
-const countryHandler = require("../service/restCountryHandler");
-const apiKeyHandler = require("../service/apiKeyHandler");
+import countryHandler from "../service/restCountryHandler.js";
+import apiKeyHandler from "../service/apiKeyHandler.js";
 
 /**
  * Retrieves information about all countries.
@@ -20,7 +20,7 @@ const getCountryByName = async (req, res) => {
   res.json(countries);
 };
 
-module.exports = {
+export default {
   getAllCountries,
   getCountryByName,
 };

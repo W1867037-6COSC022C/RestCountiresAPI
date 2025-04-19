@@ -1,4 +1,5 @@
-const jwt = require("jsonwebtoken");
+import pkg from "jsonwebtoken";
+const { verify } = pkg;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 function verifyJWT(req, res, next) {
@@ -11,7 +12,7 @@ function verifyJWT(req, res, next) {
     });
   }
 
-  jwt.verify(token, JWT_SECRET, (err, payload) => {
+  verify(token, JWT_SECRET, (err, payload) => {
     if (err) {
       return res.status(403).json({
         message: "Invalid token",
@@ -22,4 +23,4 @@ function verifyJWT(req, res, next) {
   });
 }
 
-module.exports = { verifyJWT };
+export { verifyJWT };

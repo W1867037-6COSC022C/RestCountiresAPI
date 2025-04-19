@@ -1,13 +1,20 @@
-const { run } = require("../config/db");
-const crypto = require("crypto");
-const apiKeyDao = require("../dao/apiKeyDao");
+import { run } from "../config/db";
+import { randomBytes } from "crypto";
+import {
+  createApiKey,
+  getApiKeysByUserId,
+  getApiKeyById,
+  updateApiKey as _updateApiKey,
+  deleteApiKey as _deleteApiKey,
+  getAllApiKeys as _getAllApiKeys,
+} from "../dao/apiKeyDao.js";
 
 /**
  * Generates API key using 16 random bytes by converting to a hexadecimal string.
  * There will be 32 hex characters for each
  */
 function generateRandomApiKey() {
-  return crypto.randomBytes(16).toString("hex");
+  return randomBytes(16).toString("hex");
 }
 
 /**
@@ -15,14 +22,14 @@ function generateRandomApiKey() {
  */
 async function generateApiKeyForUser(userID) {
   const apiKey = generateRandomApiKey();
-  return await apiKeyDao.createApiKey({ userID: userID, api_key: apiKey });
+  return await createApiKey({ userID: userID, api_key: apiKey });
 }
 
 /**
  * Get API keys for a specific user.
  */
 async function getUserApiKeys(userID) {
-  return await apiKeyDao.getApiKeysByUserId(userID);
+  return await getApiKeysByUserId(userID);
 }
 
 /**
@@ -30,21 +37,21 @@ async function getUserApiKeys(userID) {
  *
  */
 async function updateUserApiKey(userID, key_id, updates) {
-  const key = await apiKeyDao.getApiKeyById(key_id);
+  const key = await getApiKeyById(key_id);
   if (!key) throw new Error("API key not found");
   if (key.userID !== userID) throw new Error("Access denied: Not your API key");
-  return await apiKeyDao.updateApiKey(key_id, updates);
+  return await _updateApiKey(key_id, updates);
 }
 
 /**
  * Delete API key of a user
  */
 async function deleteUserApiKey(user_id, key_id) {
-  const key = await apiKeyDao.getApiKeyById(key_id);
+  const key = await getApiKeyById(key_id);
   if (!key) throw new Error("API key not found");
   if (key.user_id !== user_id)
     throw new Error("Access denied: Not your API key");
-  return await apiKeyDao.deleteApiKey(key_id);
+  return await _deleteApiKey(key_id);
 }
 
 /* --- Admin Functions --- */
@@ -53,25 +60,25 @@ async function deleteUserApiKey(user_id, key_id) {
  * Retrieves all API keys from the db.
  */
 async function getAllApiKeys() {
-  return await apiKeyDao.getAllApiKeys();
+  return await _getAllApiKeys();
 }
 
 /**
  * Updates any API key.
  */
 async function updateApiKey(keyId, updates) {
-  const key = await apiKeyDao.getApiKeyById(keyId);
+  const key = await getApiKeyById(keyId);
   if (!key) throw new Error("API key not found");
-  return await apiKeyDao.updateApiKey(keyId, updates);
+  return await _updateApiKey(keyId, updates);
 }
 
 /**
  * Deletes any API key.
  */
 async function deleteApiKey(keyId) {
-  const key = await apiKeyDao.getApiKeyById(keyId);
+  const key = await getApiKeyById(keyId);
   if (!key) throw new Error("API key not found");
-  return await apiKeyDao.deleteApiKey(keyId);
+  return await _deleteApiKey(keyId);
 }
 
 /**
@@ -81,7 +88,7 @@ async function logApiKeyUsage(keyId) {
   const sql = `UPDATE api_keys SET usage_count = usage_count + 1, last_used = CURRENT_TIMESTAMP WHERE id = ?`;
   await run(sql, [keyId]);
 }
-module.exports = {
+export default {
   generateApiKeyForUser,
   getUserApiKeys,
   updateUserApiKey,

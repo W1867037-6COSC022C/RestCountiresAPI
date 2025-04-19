@@ -1,4 +1,4 @@
-const { findAPIKeyByValue } = require("../dao/apiKeyDao");
+import { findAPIKeyByValue } from "../dao/apiKeyDao.js";
 
 async function authenticateApiKey(req, res, next) {
   const apiKey = req.headers["x-api-key"];
@@ -18,4 +18,4 @@ async function authenticateApiKey(req, res, next) {
   }
 }
 
-module.exports = { authenticateApiKey };
+export { authenticateApiKey };

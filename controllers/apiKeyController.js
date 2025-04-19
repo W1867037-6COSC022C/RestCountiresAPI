@@ -1,5 +1,4 @@
-// controllers/apiKeyController.js
-const apiKeyHandler = require("../service/apiKeyHandler");
+import apiKeyHandler from "../service/apiKeyHandler.js";
 
 /* ----- User Endpoints ----- */
 
@@ -69,7 +68,7 @@ const adminDeleteApiKey = async (req, res) => {
   res.json({ message: "API key deleted successfully" });
 };
 
-module.exports = {
+export default {
   generateApiKey,
   getMyApiKeys,
   updateMyApiKey,

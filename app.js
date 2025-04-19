@@ -1,13 +1,14 @@
-require("dotenv/config");
-const express = require("express");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
+import "dotenv/config";
+import express from "express";
+import pkg from "body-parser";
+const { json } = pkg;
+import cookieParser from "cookie-parser";
 
-const authRoute = require("./routes/authRoutes");
+import authRoute from "./routes/authRoutes.js";
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(json());
 app.use(cookieParser());
 
 app.use("/auth", authRoute);
