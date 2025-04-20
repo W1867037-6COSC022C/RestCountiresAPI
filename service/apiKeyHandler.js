@@ -1,4 +1,7 @@
-import { run } from "../config/db";
+import db from "../config/db.js";
+
+const { run } = db;
+//import { run } from "../config/db.js";
 import { randomBytes } from "crypto";
 import {
   createApiKey,

@@ -1,20 +1,19 @@
 import { Router } from "express";
 const router = Router();
 
-import authMiddleware from "../middleware/auth.js";
+import { verifyJWT } from "../middleware/auth.js";
 
-const { verifyJWT } = authMiddleware;
-import {
-  generateApiKeyForUser,
-  deleteMyApiKey,
-  getMyApiKeys,
-  updateMyApiKey,
-} from "../controllers/apiKeyHandler.js";
-
+// import {
+//   generateApiKeyForUser,
+//   deleteMyApiKey,
+//   getMyApiKeys,
+//   updateMyApiKey,
+// } from "../controllers/apiKeyHandler.js";
+import apiKeyController from "../controllers/apiKeyController.js";
 // All routes below require authentication.
-router.post("/", verifyJWT, generateApiKeyForUser);
-router.get("/", verifyJWT, getMyApiKeys);
-router.put("/:id", verifyJWT, updateMyApiKey);
-router.delete("/:id", verifyJWT, deleteMyApiKey);
+router.post("/", verifyJWT, apiKeyController.generateApiKey);
+router.get("/", verifyJWT, apiKeyController.getMyApiKeys);
+router.put("/:id", verifyJWT, apiKeyController.updateMyApiKey);
+router.delete("/:id", verifyJWT, apiKeyController.deleteMyApiKey);
 
 export default router;

@@ -1,4 +1,4 @@
-import { get } from "axios";
+import axios from "axios";
 
 /**
  * Extracts required fields (name, capital of country, currencies, languages, flag) from a country object.
@@ -17,7 +17,7 @@ function getRequiredCountryData(country) {
  * can be used to eetrieve data of all countries avaialble
  */
 async function getAllCountries() {
-  const response = await get("https://restcountries.com/v3.1/all");
+  const response = await axios.get("https://restcountries.com/v3.1/all");
   if (response.status !== 200) {
     throw new Error("Error fetching countries");
   }
@@ -29,7 +29,7 @@ async function getAllCountries() {
  * retrieves data for countries based on the passed country name
  */
 async function getCountryByName(countryName) {
-  const response = await get(
+  const response = await axios.get(
     `https://restcountries.com/v3.1/name/${encodeURIComponent(countryName)}`
   );
   if (response.status !== 200) {
@@ -39,7 +39,4 @@ async function getCountryByName(countryName) {
   return countries.map(getRequiredCountryData);
 }
 
-export default {
-  getAllCountries,
-  getCountryByName,
-};
+export default { getAllCountries, getCountryByName };

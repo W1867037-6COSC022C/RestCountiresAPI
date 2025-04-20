@@ -11,7 +11,9 @@ import {
   updateUserProfile,
   deleteUserProfile,
 } from "../controllers/authController.js";
+
 import { verifyJWT } from "../middleware/auth.js";
+//const { verifyJWT } = verifyJWT;
 
 router.post("/register", registerUser);
 router.post("/login", login);

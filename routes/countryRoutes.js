@@ -1,4 +1,3 @@
-// routes/countries.js
 import { Router } from "express";
 const router = Router();
 import { authenticateApiKey } from "../middleware/APIKey.js";

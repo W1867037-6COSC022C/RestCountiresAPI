@@ -20,7 +20,4 @@ const getCountryByName = async (req, res) => {
   res.json(countries);
 };
 
-export default {
-  getAllCountries,
-  getCountryByName,
-};
+export { getAllCountries, getCountryByName };

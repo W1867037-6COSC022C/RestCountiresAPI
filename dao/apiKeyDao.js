@@ -83,7 +83,7 @@ async function findApiKeyByValue(api_key) {
   return await get(sql, [api_key]);
 }
 
-export default {
+export {
   createApiKey,
   getApiKeyById,
   getApiKeysByUserId,
