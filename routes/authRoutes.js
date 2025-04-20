@@ -1,7 +1,5 @@
 import { Router } from "express";
 const router = Router();
-import csurf from "csurf";
-const csrfProtection = csurf({ cookie: true });
 
 import {
   registerUser,
@@ -22,9 +20,5 @@ router.get("/profile", verifyJWT, getLoggedInUserProfile);
 router.get("/all-users", verifyJWT, getAllUsers);
 router.put("/profile", verifyJWT, updateUserProfile);
 router.delete("/user/:id", verifyJWT, deleteUserProfile);
-
-router.get("/csrf-token", csrfProtection, (req, res) => {
-  res.json({ csrfToken: req.csrfToken() });
-});
 
 export default router;
