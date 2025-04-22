@@ -47,14 +47,14 @@ Locally hosted
   cd RestCountiresAPI
   ```
 
-````
-
 2. **Install dependencies**
-```bash
-npm install
-````
+
+   ```bash
+   npm install
+   ```
 
 3. **Hosting Server with Auto Restart**
+
    ```bash
    nodemon app.js
    ```
