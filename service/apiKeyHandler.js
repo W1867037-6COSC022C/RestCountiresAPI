@@ -23,37 +23,36 @@ function generateRandomApiKey() {
 /**
  * Generates and store a new API key for given user
  */
-async function generateApiKeyForUser(userID) {
+async function generateApiKeyForUser(userId) {
   const apiKey = generateRandomApiKey();
-  return await createApiKey({ userID: userID, api_key: apiKey });
+  return await createApiKey({ userId: userId, api_key: apiKey });
 }
 
 /**
  * Get API keys for a specific user.
  */
-async function getUserApiKeys(userID) {
-  return await getApiKeysByUserId(userID);
+async function getUserApiKeys(userId) {
+  return await getApiKeysByUserId(userId);
 }
 
 /**
  * Updates API key of a user.
  *
  */
-async function updateUserApiKey(userID, key_id, updates) {
+async function updateUserApiKey(userId, key_id, updates) {
   const key = await getApiKeyById(key_id);
   if (!key) throw new Error("API key not found");
-  if (key.userID !== userID) throw new Error("Access denied: Not your API key");
+  if (key.userId !== userId) throw new Error("Access denied: Not your API key");
   return await _updateApiKey(key_id, updates);
 }
 
 /**
  * Delete API key of a user
  */
-async function deleteUserApiKey(user_id, key_id) {
+async function deleteUserApiKey(userId, key_id) {
   const key = await getApiKeyById(key_id);
   if (!key) throw new Error("API key not found");
-  if (key.user_id !== user_id)
-    throw new Error("Access denied: Not your API key");
+  if (key.userId !== userId) throw new Error("Access denied: Not your API key");
   return await _deleteApiKey(key_id);
 }
 
@@ -69,27 +68,27 @@ async function getAllApiKeys() {
 /**
  * Updates any API key.
  */
-async function updateApiKey(keyId, updates) {
-  const key = await getApiKeyById(keyId);
+async function updateApiKey(key_id, updates) {
+  const key = await getApiKeyById(key_id);
   if (!key) throw new Error("API key not found");
-  return await _updateApiKey(keyId, updates);
+  return await _updateApiKey(key_id, updates);
 }
 
 /**
  * Deletes any API key.
  */
-async function deleteApiKey(keyId) {
-  const key = await getApiKeyById(keyId);
+async function deleteApiKey(key_id) {
+  const key = await getApiKeyById(key_id);
   if (!key) throw new Error("API key not found");
-  return await _deleteApiKey(keyId);
+  return await _deleteApiKey(key_id);
 }
 
 /**
  * Logs usage of the API key - increments its usage count, then updates the last_used timestamp.
  */
-async function logApiKeyUsage(keyId) {
-  const sql = `UPDATE api_keys SET usage_count = usage_count + 1, last_used = CURRENT_TIMESTAMP WHERE id = ?`;
-  await run(sql, [keyId]);
+async function logApiKeyUsage(key_id) {
+  const sql = `UPDATE RC_UsersAPI SET usage_count = usage_count + 1, last_used = CURRENT_TIMESTAMP WHERE id = ?`;
+  await run(sql, [key_id]);
 }
 export default {
   generateApiKeyForUser,

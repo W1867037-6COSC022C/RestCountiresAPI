@@ -69,7 +69,7 @@ async function login({ email, password }) {
     token,
     user: {
       id: loginUser.userId,
-      username: loginUser.username,
+      username: loginUser.userName,
       email: loginUser.email,
       role: loginUser.roleId,
     },
