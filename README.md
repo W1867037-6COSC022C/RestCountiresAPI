@@ -41,14 +41,22 @@ Locally hosted
 ## Getting Started
 
 1. **Clone the repo**
-   ```bash
-   git clone https://github.com/W1867037-6COSC022C/RestCountiresAPI.git
-   cd RestCountiresAPI
 
-   ```
+- ```bash
+  git clone https://github.com/W1867037-6COSC022C/RestCountiresAPI.git
+  cd RestCountiresAPI
+  ```
+
+````
+
 2. **Install dependencies**
+```bash
+npm install
+````
+
+3. **Hosting Server with Auto Restart**
    ```bash
-   npm install
+   nodemon app.js
    ```
 
 ## Docker
@@ -56,6 +64,7 @@ Locally hosted
 **A Dockerfile and .dockerignore are included for containerization.**
 
 1. **Build the image**
+
    ```bash
    docker build -t rest-countries .
 
@@ -67,3 +76,5 @@ Locally hosted
    ```bash
    http://localhost:3001/api-docs
    ```
+
+-
